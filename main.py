@@ -9,6 +9,29 @@ def main(page: ft.Page):
     page.window.height=700
     page.padding=0
     page.spacing=0
+
+
+    chat_data={
+        "Оля": [],
+        "Рома": [],
+        "Максим": []
+    }
+
+    current_chat="Оля"
+
+    all_contacts= [
+        ft.ListTile(leading=ft.CircleAvatar(content=ft.Text("O")), title=ft.Text("Оля", weight="bold"), subtitle=ft.Text("Привіт!"), data="Оля"),
+        ft.ListTile(leading=ft.CircleAvatar(content=ft.Text("Р")), title=ft.Text("Рома", weight="bold"), subtitle=ft.Text("Як справи?"), data="Рома")
+    ]
+
+    chat_history = ft.ListView(expand=True, spacing=10, auto_scroll=True, padding=15, controls=chat_data[current_chat])
+    message_input = ft.TextField(hint_text="Enter a message...", expand=True, border_color="transparent")
+    contacts_view = ft.ListView(expand=True, controls=all_contacts.copy())
+
+    top_name = ft.Text(current_chat, size=18, weight="bold")
+    top_avatar = ft.CircleAvatar(content=ft.Text(current_chat[0]), radius=15)
+
+
     sidebar=ft.Container(
         width=300,
         bgcolor="#17212b",
@@ -37,18 +60,16 @@ def main(page: ft.Page):
             ]
         )
     )
-    # Оновлюємо chat_area:
     chat_area = ft.Container(
         expand=True, bgcolor="#0e1621",
         content=ft.Column(
             controls=[
-                # 1. ВЕРХНЯ ПАНЕЛЬ + Пружина
                 ft.Container(
                     content=ft.Row([
                         ft.CircleAvatar(content=ft.Text("О"), radius=15),
                         ft.Text("Оля", size=18, weight="bold", color="white"),
 
-                        ft.Container(expand=True),  # <-- ПРУЖИНА в рядку! Відштовхує іконки
+                        ft.Container(expand=True),
 
                         ft.IconButton(ft.Icons.SEARCH, icon_color="white"),
                         ft.IconButton(ft.Icons.CALL, icon_color="white"),
@@ -56,10 +77,8 @@ def main(page: ft.Page):
                     bgcolor="#17212b", padding=ft.Padding(15, 10, 15, 10)
                 ),
 
-                # 2. ПОРОЖНЕЧА ДЛЯ ПОВІДОМЛЕНЬ
-                ft.Container(expand=True),  # <-- ПРУЖИНА в колонці!
+                ft.Container(expand=True),
 
-                # 3. ПОЛЕ ВВОДУ
                 ft.Container(
                     content=ft.Row([
                         ft.IconButton(ft.Icons.ATTACH_FILE, icon_color="grey"),
